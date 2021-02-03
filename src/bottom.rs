@@ -1,7 +1,7 @@
+use std::convert::From;
 use std::error::Error;
 use std::fmt;
-
-include!(concat!(env!("OUT_DIR"), "/maps.rs"));
+use std::string::FromUtf8Error;
 
 #[derive(Debug)]
 pub struct TranslationError {
@@ -15,34 +15,79 @@ impl fmt::Display for TranslationError {
 }
 
 impl Error for TranslationError {}
-
-pub fn encode_byte(value: u8) -> &'static str {
-    &BYTE_TO_EMOJI[value as usize]
-}
-
-pub fn decode_byte(input: &dyn AsRef<str>) -> Result<u8, TranslationError> {
-    let input_ref = input.as_ref();
-    let result = EMOJI_TO_BYTE
-        .get(input_ref)
-        .ok_or_else(|| TranslationError {
-            why: format!("Cannot decode character {}", input_ref),
-        })?;
-    Ok(*result)
-}
-
-pub fn encode_string(input: &dyn AsRef<str>) -> String {
-    input.as_ref().bytes().map(encode_byte).collect::<String>()
+impl From<FromUtf8Error> for TranslationError {
+    fn from(error: FromUtf8Error) -> Self {
+        TranslationError {
+            why: format!("FromUtf8Error {}", error),
+        }
+    }
 }
 
 pub fn decode_string(input: &dyn AsRef<str>) -> Result<String, TranslationError> {
-    let input = input.as_ref();
-    let result = input
-        .trim_end_matches("👉👈")
-        .split("👉👈")
-        .map(|c| decode_byte(&c))
-        .collect::<Result<Vec<u8>, _>>()?;
+    let mut result: Vec<u8> = Vec::new();
+    let mut iter = input.as_ref().bytes();
 
-    Ok(String::from_utf8_lossy(&result).to_string())
+    'm: loop {
+        let mut sum: u8 = 0;
+        'b: loop {
+            let ch = iter.next();
+            if ch.is_none() {
+                break 'm;
+            }
+
+            let b = ch.unwrap();
+            match b {
+                240 => {
+                    iter.next(); // 159
+                    let b2 = iter.next().unwrap();
+                    match b2 {
+                        171 => {
+                            // people
+                            iter.next();
+                            sum += 200;
+                        }
+                        146 => {
+                            // heart
+                            iter.next();
+                            sum += 50;
+                        }
+                        165 => {
+                            // bottom
+                            iter.next();
+                            sum += 5;
+                        }
+                        145 => {
+                            // seperator
+                            iter.nth(4);
+                            break 'b;
+                        }
+                        _ => {
+                            return Err(TranslationError {
+                                why: format!("Attempt to decode byte {}", b2),
+                            });
+                        }
+                    }
+                }
+                226 => {
+                    // star
+                    iter.nth(1);
+                    sum += 10;
+                }
+                44 => {
+                    // comma
+                    sum += 1;
+                }
+                _ => {
+                    return Err(TranslationError {
+                        why: format!("Attempt to decode byte {}", b),
+                    });
+                }
+            }
+        }
+        result.push(sum)
+    }
+
+    Ok(String::from_utf8(result)?)
 }
 
 #[cfg(test)]
@@ -50,48 +95,12 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_string_encode() {
-        assert_eq!(
-            encode_string(&"Test"),
-            "💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈"
-        );
-    }
-
-    #[test]
-    fn test_byte_encode() {
-        assert_eq!(encode_byte(b'h'), "💖💖,,,,👉👈",);
-    }
-
-    #[test]
-    fn test_char_decode() {
-        assert_eq!(decode_byte(&"💖💖,,,,").unwrap(), b'h',);
-    }
-
-    #[test]
     fn test_string_decode() {
-        // Test that we haven't killed backwards-compat
-        assert_eq!(
-            decode_string(&"💖✨✨✨,,,,\u{200B}💖💖,\u{200B}💖💖✨🥺\u{200B}💖💖✨🥺,\u{200B}")
-                .unwrap(),
-            "Test"
-        );
+        // ~~Test that we haven't killed backwards-compat~~
+        // fuck backwards-compat
         assert_eq!(
             decode_string(&"💖✨✨✨,,,,👉👈💖💖,👉👈💖💖✨🥺👉👈💖💖✨🥺,👉👈").unwrap(),
             "Test"
-        );
-    }
-
-    #[test]
-    fn test_unicode_string_encode() {
-        assert_eq!(
-            encode_string(&"🥺"),
-            "🫂✨✨✨✨👉👈💖💖💖🥺,,,,👉👈💖💖💖✨🥺👉👈💖💖💖✨✨✨🥺,👉👈"
-        );
-        assert_eq!(
-            encode_string(&"がんばれ"),
-            "🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈💖💖✨✨✨✨👉👈🫂✨✨🥺,,👉👈\
-            💖💖✨✨✨👉👈💖💖✨✨✨✨🥺,,👉👈🫂✨✨🥺,,👉👈💖💖✨✨🥺,,,,👉👈\
-            💖💖💖✨✨🥺,👉👈🫂✨✨🥺,,👉👈💖💖✨✨✨👉👈💖💖✨✨✨✨👉👈"
         );
     }
 

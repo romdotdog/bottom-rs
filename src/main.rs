@@ -51,11 +51,7 @@ fn main() -> Result<()> {
         )?
     };
 
-    let result = if args.is_present("bottomify") {
-        bottom::encode_string(&input)
-    } else {
-        bottom::decode_string(&input).context("The input was invalid.")?
-    };
+    let result = bottom::decode_string(&input).context("The input was invalid.")?;
 
     if file_output {
         let output_path = args.value_of_lossy("output").unwrap().to_string();
