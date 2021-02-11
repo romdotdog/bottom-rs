@@ -57,57 +57,59 @@ Found 7 outliers among 100 measurements (7.00%)
 ## Current bench
 
 ```bench
-encode/1                time:   [76.773 ns 78.573 ns 80.665 ns]
-                        thrpt:  [11.823 MiB/s 12.137 MiB/s 12.422 MiB/s]
-Found 8 outliers among 100 measurements (8.00%)
-  5 (5.00%) high mild
-  3 (3.00%) high severe
-encode/4                time:   [268.96 ns 282.54 ns 303.39 ns]
-                        thrpt:  [12.574 MiB/s 13.501 MiB/s 14.183 MiB/s]
-Found 12 outliers among 100 measurements (12.00%)
+encode/1                time:   [74.662 ns 76.775 ns 79.281 ns]
+                        thrpt:  [12.029 MiB/s 12.422 MiB/s 12.773 MiB/s]
+Found 9 outliers among 100 measurements (9.00%)
   4 (4.00%) high mild
-  8 (8.00%) high severe
-encode/8                time:   [381.83 ns 389.42 ns 397.52 ns]
-                        thrpt:  [19.193 MiB/s 19.592 MiB/s 19.981 MiB/s]
-Found 6 outliers among 100 measurements (6.00%)
+  5 (5.00%) high severe
+encode/4                time:   [95.267 ns 97.319 ns 99.706 ns]
+                        thrpt:  [38.260 MiB/s 39.198 MiB/s 40.042 MiB/s]
+Found 8 outliers among 100 measurements (8.00%)
+  1 (1.00%) high mild
+  7 (7.00%) high severe
+encode/8                time:   [119.36 ns 122.38 ns 126.23 ns]
+                        thrpt:  [60.439 MiB/s 62.342 MiB/s 63.919 MiB/s]
+Found 7 outliers among 100 measurements (7.00%)
+  2 (2.00%) high mild
+  5 (5.00%) high severe
+encode/12               time:   [141.64 ns 147.15 ns 153.31 ns]
+                        thrpt:  [74.649 MiB/s 77.770 MiB/s 80.795 MiB/s]
+Found 5 outliers among 100 measurements (5.00%)
   5 (5.00%) high mild
+encode/16               time:   [159.95 ns 163.72 ns 167.75 ns]
+                        thrpt:  [90.961 MiB/s 93.198 MiB/s 95.399 MiB/s]
+Found 2 outliers among 100 measurements (2.00%)
+  1 (1.00%) high mild
   1 (1.00%) high severe
-encode/12               time:   [491.09 ns 500.00 ns 510.59 ns]
-                        thrpt:  [22.413 MiB/s 22.888 MiB/s 23.304 MiB/s]
-Found 6 outliers among 100 measurements (6.00%)
-  4 (4.00%) high mild
-  2 (2.00%) high severe
-encode/16               time:   [508.20 ns 517.08 ns 527.56 ns]
-                        thrpt:  [28.923 MiB/s 29.509 MiB/s 30.025 MiB/s]
-Found 11 outliers among 100 measurements (11.00%)
-  5 (5.00%) high mild
-  6 (6.00%) high severe
-encode/1533             time:   [12.013 us 12.330 us 12.689 us]
-                        thrpt:  [115.22 MiB/s 118.58 MiB/s 121.70 MiB/s]
-Found 8 outliers among 100 measurements (8.00%)
-  5 (5.00%) high mild
-  3 (3.00%) high severe
+encode/1533             time:   [9.1695 us 9.4148 us 9.7094 us]
+                        thrpt:  [150.57 MiB/s 155.28 MiB/s 159.44 MiB/s]
+Found 10 outliers among 100 measurements (10.00%)
 
-decode/1                time:   [97.074 ns 98.806 ns 100.63 ns]
-                        thrpt:  [284.30 MiB/s 289.56 MiB/s 294.73 MiB/s]
-Found 6 outliers among 100 measurements (6.00%)
-  4 (4.00%) high mild
-  2 (2.00%) high severe
-decode/4                time:   [180.52 ns 189.41 ns 198.15 ns]
-                        thrpt:  [524.60 MiB/s 548.81 MiB/s 575.82 MiB/s]
-Found 1 outliers among 100 measurements (1.00%)
-  1 (1.00%) high severe
-decode/8                time:   [278.45 ns 288.68 ns 300.54 ns]
-                        thrpt:  [583.87 MiB/s 607.86 MiB/s 630.18 MiB/s]
-Found 3 outliers among 100 measurements (3.00%)
-  3 (3.00%) high severe
-decode/16               time:   [287.54 ns 295.97 ns 305.45 ns]
-                        thrpt:  [1.0824 GiB/s 1.1171 GiB/s 1.1498 GiB/s]
-Found 8 outliers among 100 measurements (8.00%)
-  7 (7.00%) high mild
-  1 (1.00%) high severe
-decode/1533             time:   [34.829 us 35.875 us 36.949 us]
-                        thrpt:  [850.36 MiB/s 875.81 MiB/s 902.11 MiB/s]
+decode/1                time:   [104.65 ns 108.90 ns 113.73 ns]
+                        thrpt:  [251.56 MiB/s 262.73 MiB/s 273.39 MiB/s]
 Found 1 outliers among 100 measurements (1.00%)
   1 (1.00%) high mild
+decode/4                time:   [159.38 ns 167.41 ns 176.26 ns]
+                        thrpt:  [589.76 MiB/s 620.94 MiB/s 652.20 MiB/s]
+Found 7 outliers among 100 measurements (7.00%)
+  5 (5.00%) high mild
+  2 (2.00%) high severe
+decode/8                time:   [202.57 ns 212.52 ns 223.19 ns]
+                        thrpt:  [781.94 MiB/s 821.19 MiB/s 861.54 MiB/s]
+Found 6 outliers among 100 measurements (6.00%)
+  6 (6.00%) high mild
+decode/12               time:   [336.27 ns 354.73 ns 374.71 ns]
+                        thrpt:  [832.24 MiB/s 879.13 MiB/s 927.39 MiB/s]
+Found 6 outliers among 100 measurements (6.00%)
+  5 (5.00%) high mild
+  1 (1.00%) high severe
+decode/16               time:   [324.04 ns 348.30 ns 374.83 ns]
+                        thrpt:  [898.14 MiB/s 966.54 MiB/s 1.0146 GiB/s]
+Found 6 outliers among 100 measurements (6.00%)
+  5 (5.00%) high mild
+  1 (1.00%) high severe
+decode/1533             time:   [35.624 us 37.182 us 38.778 us]
+                        thrpt:  [810.24 MiB/s 845.04 MiB/s 881.98 MiB/s]
+Found 3 outliers among 100 measurements (3.00%)
+  3 (3.00%) high mild
 ```

@@ -25,8 +25,16 @@ impl From<FromUtf8Error> for TranslationError {
     }
 }
 
+pub fn encoded_len(input: &dyn AsRef<str>) -> usize {
+    let mut l: usize = 0;
+    for ch in input.as_ref().bytes() {
+        l += BYTE_TO_EMOJI[ch as usize].len();
+    }
+    l
+}
+
 pub fn encode_string(input: &dyn AsRef<str>) -> String {
-    let mut res = String::new();
+    let mut res = String::with_capacity(encoded_len(input));
     for v in input.as_ref().bytes() {
         res.push_str(BYTE_TO_EMOJI[v as usize])
     }
@@ -34,8 +42,8 @@ pub fn encode_string(input: &dyn AsRef<str>) -> String {
 }
 
 pub fn decode_string(input: &dyn AsRef<str>) -> Result<String, TranslationError> {
-    let mut result: Vec<u8> = Vec::new();
     let mut iter = input.as_ref().bytes();
+    let mut result: Vec<u8> = Vec::with_capacity(iter.clone().count());
 
     'm: loop {
         let mut sum: u8 = 0;
