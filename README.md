@@ -1,5 +1,21 @@
 # maps are for losers
 
+## Just tell me the improvement
+
+```diff
+- encode/1        71.543 ns → 76.775 ns
++ encode/4        281.22 ns → 97.319 ns
++ encode/8        405.03 ns → 122.38 ns
++ encode/16       539.60 ns → 163.72 ns
++ encode/1533     12.038 us → 9.4148 us (-2623.2 ns)
+
++ decode/1        419.02 ns → 108.90 ns
++ decode/4        792.87 ns → 167.41 ns
++ decode/8        960.98 ns → 212.52 ns
++ decode/16       948.25 ns → 348.30 ns
++ decode/1533     116.75 us → 37.182 us (-79568 ns)
+```
+
 ## Upstream bench
 
 ```
