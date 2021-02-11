@@ -1,9 +1,11 @@
-# maps are for losers
+# warp-bottom-rs
+
+bottom at warp speed! Faster than upstream and bottom-go.
 
 ## Just tell me the improvement
 
 ```diff
-- encode/1        71.543 ns → 76.775 ns
+  encode/1        71.543 ns → 76.775 ns
 + encode/4        281.22 ns → 97.319 ns
 + encode/8        405.03 ns → 122.38 ns
 + encode/16       539.60 ns → 163.72 ns
