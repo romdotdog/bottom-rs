@@ -1,11 +1,13 @@
+use lazy_static::lazy_static;
+use maplit::hashmap;
 use std::env;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::path::Path;
-use phf_codegen;
-use maplit::hashmap;
-use std::{collections::HashMap, mem::{self, MaybeUninit}};
-use lazy_static::lazy_static;
+use std::{
+    collections::HashMap,
+    mem::{self, MaybeUninit},
+};
 
 lazy_static! {
 
@@ -71,15 +73,4 @@ fn main() {
     }
 
     write!(&mut file, "];\n").unwrap();
-
-    write!(&mut file, "static EMOJI_TO_BYTE: phf::Map<&'static str, u8> = ").unwrap();
-
-    let mut m = phf_codegen::Map::new();
-
-    for (byte, emoji) in BYTE_TO_EMOJI.iter().enumerate() {
-        m.entry(emoji.as_str().trim_end_matches("👉👈"), &byte.to_string());
-    }
-
-    write!(&mut file, "{}", m.build()).unwrap();
-    write!(&mut file, ";\n").unwrap();
 }

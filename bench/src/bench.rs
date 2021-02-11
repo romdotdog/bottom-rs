@@ -1,4 +1,4 @@
-use bottomify::bottom::decode_string;
+use bottomify::bottom::{decode_string, encode_string};
 use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion, Throughput};
 
 static ENCODE_INPUT: &'static [&'static str] = &[
@@ -40,13 +40,27 @@ static DECODE_INPUT: &'static [&'static str] = &[
 ];
 
 fn criterion_benchmark(c: &mut Criterion) {
-    let mut group = c.benchmark_group("decode");
+    let mut group = c.benchmark_group("encode");
 
-    for inp in DECODE_INPUT.iter().cloned() {
+    for inp in ENCODE_INPUT.iter().cloned() {
         group.throughput(Throughput::Bytes(inp.len() as u64));
         group.bench_with_input(BenchmarkId::from_parameter(inp.len()), inp, |b, inp| {
-            b.iter(|| decode_string(&inp));
+            b.iter(|| encode_string(&inp));
         });
+    }
+    group.finish();
+
+    let mut group = c.benchmark_group("decode");
+
+    for (i, inp) in DECODE_INPUT.iter().cloned().enumerate() {
+        group.throughput(Throughput::Bytes(inp.len() as u64));
+        group.bench_with_input(
+            BenchmarkId::from_parameter(ENCODE_INPUT[i].len()),
+            inp,
+            |b, inp| {
+                b.iter(|| decode_string(&inp));
+            },
+        );
     }
     group.finish();
 }

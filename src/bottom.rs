@@ -3,6 +3,8 @@ use std::error::Error;
 use std::fmt;
 use std::string::FromUtf8Error;
 
+include!(concat!(env!("OUT_DIR"), "/maps.rs"));
+
 #[derive(Debug)]
 pub struct TranslationError {
     pub why: String,
@@ -21,6 +23,14 @@ impl From<FromUtf8Error> for TranslationError {
             why: format!("FromUtf8Error {}", error),
         }
     }
+}
+
+pub fn encode_byte(value: u8) -> &'static str {
+    &BYTE_TO_EMOJI[value as usize]
+}
+
+pub fn encode_string(input: &dyn AsRef<str>) -> String {
+    input.as_ref().bytes().map(encode_byte).collect::<String>()
 }
 
 pub fn decode_string(input: &dyn AsRef<str>) -> Result<String, TranslationError> {
