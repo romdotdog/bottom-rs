@@ -27,10 +27,9 @@ impl From<FromUtf8Error> for TranslationError {
 
 pub fn encode_string(input: &dyn AsRef<str>) -> String {
     let mut res = String::new();
-    input
-        .as_ref()
-        .bytes()
-        .for_each(|v| res.push_str(BYTE_TO_EMOJI[v as usize]));
+    for v in input.as_ref().bytes() {
+        res.push_str(BYTE_TO_EMOJI[v as usize])
+    }
     res
 }
 
