@@ -25,12 +25,13 @@ impl From<FromUtf8Error> for TranslationError {
     }
 }
 
-pub fn encode_byte(value: u8) -> &'static str {
-    &BYTE_TO_EMOJI[value as usize]
-}
-
 pub fn encode_string(input: &dyn AsRef<str>) -> String {
-    input.as_ref().bytes().map(encode_byte).collect::<String>()
+    let mut res = String::new();
+    input
+        .as_ref()
+        .bytes()
+        .for_each(|v| res.push_str(BYTE_TO_EMOJI[v as usize]));
+    res
 }
 
 pub fn decode_string(input: &dyn AsRef<str>) -> Result<String, TranslationError> {
