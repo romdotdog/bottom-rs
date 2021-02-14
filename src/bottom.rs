@@ -87,9 +87,23 @@ pub fn decode_string(input: &dyn AsRef<str>) -> Result<String, TranslationError>
                     }
                 }
                 226 => {
-                    // star
-                    iter.nth(1);
-                    sum += 10;
+                    let b2 = iter.next().unwrap();
+                    match b2 {
+                        156 => {
+                            // star
+                            iter.next();
+                            sum += 10;
+                        }
+                        157 => {
+                            // null heart
+                            iter.nth(3);
+                        }
+                        _ => {
+                            return Err(TranslationError {
+                                why: format!("Attempt to decode byte {}", b2),
+                            });
+                        }
+                    }
                 }
                 44 => {
                     // comma
