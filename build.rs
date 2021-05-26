@@ -74,7 +74,7 @@ fn main() {
 
 	write!(&mut file, "];\n").unwrap();
 
-	write!(&mut file, "static BYTE_TO_LEN: [u8; 256] = [").unwrap();
+	write!(&mut file, "static BYTE_TO_LEN: [usize; 256] = [").unwrap();
 
 	for emoji in BYTE_TO_EMOJI.iter() {
 		write!(&mut file, "{},", emoji.len()).unwrap();

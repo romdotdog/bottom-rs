@@ -28,7 +28,7 @@ impl From<FromUtf8Error> for TranslationError {
 pub fn encoded_len(input: &dyn AsRef<str>) -> usize {
 	let mut l: usize = 0;
 	for n in input.as_ref().bytes() {
-		l += BYTE_TO_LEN[n as usize] as usize;
+		l += BYTE_TO_LEN[n as usize];
 	}
 	l
 }
